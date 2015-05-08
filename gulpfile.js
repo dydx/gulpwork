@@ -32,8 +32,15 @@ gulp.task('scss-lint-compile-minify', function() {
     .pipe(gulp.dest('dist/style'));
 });
 
+// watch dir
+gulp.task('watch', function() {
+  gulp.watch('build/js/*.js', ['js-lint-minify']);
+  gulp.watch('build/styles/*.scss', ['scss-lint-compile-minify']);
+});
+
 // build the app
 gulp.task('default', [
   'js-lint-minify',
-  'scss-lint-compile-minify'
+  'scss-lint-compile-minify',
+  'watch'
 ]);
