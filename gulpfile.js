@@ -1,28 +1,30 @@
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
+    babel = require('gulp-babel'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-sass'),
     minify = require('gulp-minify-css');
 
-// lint and compile JS
+// lint ES6, transpile to ES5, compile, and uglify
 gulp.task('js-lint-minify', function() {
-  return gulp.src('build/js/*.js') // read all files in script/lib
-    .pipe(jshint()) // run them through JSHint
-    .pipe(jshint.reporter('default')) // report findings
-    .pipe(concat('app.js')) // concat them into all.js
-    .pipe(gulp.dest('dist/js')) // send that in dist/js
-    .pipe(rename('app.min.js')) // rename the file in memory to all.min.js
-    .pipe(uglify()) // uglify the file
+  return gulp.src('build/js/*.js')
+    .pipe(jshint({esnext: true}))
+    .pipe(jshint.reporter('default'))
+    .pipe(babel())
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest('dist/js'))
+    .pipe(rename('app.min.js'))
+    .pipe(uglify())
     .pipe(gulp.dest('dist/js'));
 });
 
-// lint, compile, and minify SASS
+// transpile to CSS, compile, and minify
 gulp.task('scss-lint-compile-minify', function() {
   // stuff for processing SASS in here
   return gulp.src('build/styles/*.scss')
-    .pipe(sass())
+    .pipe(sass().on('error', sass.logError))
     .pipe(concat('style.css'))
     .pipe(gulp.dest('dist/style'))
     .pipe(minify())
