@@ -5,7 +5,8 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-sass'),
-    minify = require('gulp-minify-css');
+    minify = require('gulp-minify-css'),
+    notify = require('gulp-notify');
 
 // lint ES6, transpile to ES5, compile, and uglify
 gulp.task('js-lint-minify', function() {
